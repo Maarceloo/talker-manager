@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getAllPeople, getPeopleID } = require('./services');
+const crypto = require('crypto');
+const { getAllPeople, getPeopleID, emailValidation, passwordlValidation } = require('./services');
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,7 +15,7 @@ app.get('/', (_request, response) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Online');
+  console.log(`Servidor online na porta ${PORT}`);
 });
 
 // <---------------------------------------------------------------------->
@@ -34,4 +35,9 @@ app.get('/talker/:id', async (req, res) => {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }
   return res.status(HTTP_OK_STATUS).json(result);
+});
+
+app.post('/login', emailValidation, passwordlValidation, async (req, res) => {
+  const key = crypto.randomBytes(8).toString('hex');
+  return res.status(HTTP_OK_STATUS).json({ token: key });
 });
