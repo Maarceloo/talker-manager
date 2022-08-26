@@ -1,7 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const { getAllPeople, getPeopleID, emailValidation, passwordlValidation } = require('./services');
+const {
+  getAllPeople,
+  getPeopleID,
+  emailValidation,
+  passwordlValidation,
+  tokenValidation, 
+  nameValidation, 
+  ageValidation, 
+  talkValidation, 
+  watcheAtValidation,
+  ratetValidation } = require('./services');
 
 const app = express();
 app.use(bodyParser.json());
@@ -37,7 +47,17 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(result);
 });
 
-app.post('/login', emailValidation, passwordlValidation, async (req, res) => {
+app.post('/login', emailValidation, passwordlValidation, async (_req, res) => {
   const key = crypto.randomBytes(8).toString('hex');
   return res.status(HTTP_OK_STATUS).json({ token: key });
 });
+
+app.post('/talker',
+ tokenValidation,
+ nameValidation,
+ ageValidation,
+ talkValidation,
+ watcheAtValidation,
+ ratetValidation, async (req, res) => res.status(201).json('teste'));
+
+// retornar a pessoa cadastrada
