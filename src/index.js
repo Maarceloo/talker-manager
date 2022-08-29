@@ -13,6 +13,7 @@ const {
   watcheAtValidation,
   ratetValidation, 
   newUser,
+  updateFiles,
 } = require('./services');
 
 const app = express();
@@ -61,7 +62,18 @@ app.post('/talker',
  talkValidation,
  watcheAtValidation,
  ratetValidation, async (req, res) => {
-   const usuario = await newUser(req);
-   console.log(usuario);
-  res.status(201).json(usuario);
+   const file = await newUser(req);
+  res.status(201).json(file);
+ });
+
+ app.put('/talker/:id',
+ tokenValidation,
+ nameValidation,
+ ageValidation,
+ talkValidation,
+ watcheAtValidation,
+ ratetValidation, async (req, res) => {
+  const { id } = req.params;
+  const file = await updateFiles(req, id);
+  res.status(200).json(file);
  });

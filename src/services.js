@@ -87,7 +87,7 @@ const watcheAtValidation = (req, res, next) => {
 
 const ratetValidation = (req, res, next) => {
     const { talk: { rate } } = req.body;
-    if (!rate) {
+    if (rate === undefined) {
         return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
     } if (rate < 1 || rate > 5) {
         return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
@@ -98,23 +98,44 @@ const ratetValidation = (req, res, next) => {
 const newUser = async (req) => {
     const files = await getAllPeople();
     const userObj = {
-        id: files.length += 1,
+        id: files.length + 1,
         name: req.body.name,
         age: req.body.age,
         talk: {
           watchedAt: req.body.talk.watchedAt,
           rate: req.body.talk.rate,
         },
-      };
-      try {
+    };
+    try {
         files.push(userObj);
         await fs.writeFile('src/talker.json', JSON.stringify(files));
         return userObj;
     } catch (error) {
-        console.log('erro ao tentar add novo usuario', error.message);
+        console.log(error);
         return null;
     }
 }; 
+
+const updateFiles = async (req, id) => {
+    const userObj = {
+        id: Number(id),
+        name: req.body.name,
+        age: req.body.age,
+        talk: {
+            watchedAt: req.body.talk.watchedAt,
+            rate: req.body.talk.rate,
+        },
+    };
+    const files = await getAllPeople();
+    const newFiles = files.filter((iten) => iten.id !== Number(id));
+    newFiles.push(userObj);
+    try {
+        await fs.writeFile('src/talker.json', JSON.stringify(newFiles));
+        return userObj;
+    } catch (error) {
+        return null;
+    }
+};
 module.exports = { 
     getAllPeople,
     getPeopleID,
@@ -126,4 +147,5 @@ module.exports = {
     talkValidation,
     watcheAtValidation,
     ratetValidation,
-    newUser };
+    newUser,
+    updateFiles };
