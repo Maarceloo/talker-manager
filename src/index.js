@@ -11,7 +11,9 @@ const {
   ageValidation, 
   talkValidation, 
   watcheAtValidation,
-  ratetValidation } = require('./services');
+  ratetValidation, 
+  newUser,
+} = require('./services');
 
 const app = express();
 app.use(bodyParser.json());
@@ -58,6 +60,8 @@ app.post('/talker',
  ageValidation,
  talkValidation,
  watcheAtValidation,
- ratetValidation, async (req, res) => res.status(201).json('teste'));
-
-// retornar a pessoa cadastrada
+ ratetValidation, async (req, res) => {
+   const usuario = await newUser(req);
+   console.log(usuario);
+  res.status(201).json(usuario);
+ });
