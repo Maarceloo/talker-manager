@@ -150,6 +150,12 @@ const deleteFiles = async (id) => {
     }
 };
 
+const getUserQuery = async (q) => {
+    const files = await getAllPeople();
+    const usuario = files.filter((iten) => iten.name.includes(q));
+    return usuario;
+};
+
 module.exports = { 
     getAllPeople,
     getPeopleID,
@@ -163,4 +169,5 @@ module.exports = {
     ratetValidation,
     newUser,
     updateFiles,
-    deleteFiles };
+    deleteFiles,
+    getUserQuery };

@@ -15,6 +15,7 @@ const {
   newUser,
   updateFiles,
   deleteFiles,
+  getUserQuery,
 } = require('./services');
 
 const app = express();
@@ -40,6 +41,17 @@ app.get('/talker', async (_req, res) => {
     return res.status(HTTP_OK_STATUS).json([]);
   }
   return res.status(HTTP_OK_STATUS).json(result);
+});
+
+app.get('/talker/search',
+tokenValidation, async (req, res) => {
+ const { q } = req.query;
+ if (!q) {
+  const result = await getAllPeople();
+  return res.status(HTTP_OK_STATUS).json(result);
+ }
+ const usuario = await getUserQuery(q);
+ res.status(200).json(usuario);
 });
 
 app.get('/talker/:id', async (req, res) => {
