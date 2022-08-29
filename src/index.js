@@ -14,6 +14,7 @@ const {
   ratetValidation, 
   newUser,
   updateFiles,
+  deleteFiles,
 } = require('./services');
 
 const app = express();
@@ -76,4 +77,11 @@ app.post('/talker',
   const { id } = req.params;
   const file = await updateFiles(req, id);
   res.status(200).json(file);
+ });
+
+ app.delete('/talker/:id',
+ tokenValidation, async (req, res) => {
+  const { id } = req.params;
+  const newFiles = await deleteFiles(id);
+  res.status(204).json(newFiles);
  });

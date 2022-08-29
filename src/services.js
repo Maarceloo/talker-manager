@@ -1,13 +1,15 @@
 const fs = require('fs').promises;
 
+const path = 'src/talker.json';
+
 const getAllPeople = async () => {
-   const file = await fs.readFile('src/talker.json', 'utf8');
+   const file = await fs.readFile(path, 'utf8');
    const result = JSON.parse(file);
    return result;
 };
 
 const getPeopleID = async (id) => {
-    const file = await fs.readFile('src/talker.json', 'utf8');
+    const file = await fs.readFile(path, 'utf8');
     const result = JSON.parse(file);
     const resposta = result.find((iten) => iten.id === Number(id));
     return resposta;
@@ -108,7 +110,7 @@ const newUser = async (req) => {
     };
     try {
         files.push(userObj);
-        await fs.writeFile('src/talker.json', JSON.stringify(files));
+        await fs.writeFile(path, JSON.stringify(files));
         return userObj;
     } catch (error) {
         console.log(error);
@@ -130,12 +132,24 @@ const updateFiles = async (req, id) => {
     const newFiles = files.filter((iten) => iten.id !== Number(id));
     newFiles.push(userObj);
     try {
-        await fs.writeFile('src/talker.json', JSON.stringify(newFiles));
+        await fs.writeFile(path, JSON.stringify(newFiles));
         return userObj;
     } catch (error) {
         return null;
     }
 };
+
+const deleteFiles = async (id) => {
+    const files = await getAllPeople();
+    const newFiles = files.filter((iten) => iten.id !== Number(id));
+    try {
+        await fs.writeFile(path, JSON.stringify(newFiles));
+        return newFiles;
+    } catch (error) {
+        return null;
+    }
+};
+
 module.exports = { 
     getAllPeople,
     getPeopleID,
@@ -148,4 +162,5 @@ module.exports = {
     watcheAtValidation,
     ratetValidation,
     newUser,
-    updateFiles };
+    updateFiles,
+    deleteFiles };
