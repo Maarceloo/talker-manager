@@ -1,17 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
+const emailValidation = require('./middleware/emailValidation');
+const passwordlValidation = require('./middleware/passwordlValidation');
+const tokenValidation = require('./middleware/tokenValidation');
+const nameValidation = require('./middleware/nameValidation');
+const ageValidation = require('./middleware/ageValidation');
+const talkValidation = require('./middleware/talkValidation');
+const watcheAtValidation = require('./middleware/watcheAtValidation');
+const ratetValidation = require('./middleware/ratetValidation');
+
 const {
   getAllPeople,
   getPeopleID,
-  emailValidation,
-  passwordlValidation,
-  tokenValidation, 
-  nameValidation, 
-  ageValidation, 
-  talkValidation, 
-  watcheAtValidation,
-  ratetValidation, 
   newUser,
   updateFiles,
   deleteFiles,
