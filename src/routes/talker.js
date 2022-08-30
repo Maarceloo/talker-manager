@@ -1,12 +1,17 @@
 const express = require('express');
+
 const ageValidation = require('../middleware/ageValidation');
 const nameValidation = require('../middleware/nameValidation');
 const ratetValidation = require('../middleware/ratetValidation');
 const talkValidation = require('../middleware/talkValidation');
 const tokenValidation = require('../middleware/tokenValidation');
 const watcheAtValidation = require('../middleware/watcheAtValidation');
-const { getAllPeople,
-     getUserQuery, getPeopleID, newUser, updateFiles, deleteFiles } = require('../services');
+const getPeopleID = require('../services/getPeopleID');
+const newUser = require('../services/newUser');
+const getAllPeople = require('../services/getAllPeople');
+const getUserQuery = require('../services/getUserQuery');
+const updateFiles = require('../services/updateFiles');
+const deleteFiles = require('../services/deleteFiles');
 
 const router = express.Router();
 
